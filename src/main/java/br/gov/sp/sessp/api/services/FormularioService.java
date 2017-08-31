@@ -34,4 +34,8 @@ public class FormularioService {
 		this.repository.deleteAll();
 	}
 
+	public Formulario formularioPorCodigo(Integer codigo) {
+		return this.repository.findOne(codigo);
+	}
+
 }

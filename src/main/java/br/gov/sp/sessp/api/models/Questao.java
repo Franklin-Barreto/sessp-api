@@ -2,21 +2,25 @@ package br.gov.sp.sessp.api.models;
 
 public class Questao {
 
-	private Integer id;
-	private String description;
+	private Integer codigo;
+	private String descricao;
 
-	public Questao(Integer id, String description) {
+	public Questao(Integer codigo, String descricao) {
 
-		this.id = id;
-		this.description = description;
+		this.codigo = codigo;
+		this.descricao = descricao;
+	}
+	
+	public Questao() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getCodigo() {
+		return codigo;
 	}
 
 	public String getDescricao() {
-		return description;
+		return descricao;
 	}
 
 }

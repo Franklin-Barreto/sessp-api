@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Fator {
 
-	private Integer id;
+	private Integer codigo;
 	private String titulo;
 	private String descricao;
 	private List<Questao> questoes;
@@ -12,9 +12,9 @@ public class Fator {
 	
 	
 
-	public Fator(Integer id, String titulo, String descricao, List<Questao> questoes) {
+	public Fator(Integer codigo, String titulo, String descricao, List<Questao> questoes) {
 	
-		this.id = id;
+		this.codigo = codigo;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.questoes = questoes;
@@ -22,8 +22,8 @@ public class Fator {
 	
 	public Fator(){}
 
-	public Integer getId() {
-		return id;
+	public Integer getCodigo() {
+		return codigo;
 	}
 
 	public String getTitulo() {
