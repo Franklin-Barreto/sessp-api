@@ -11,11 +11,13 @@ public class Formulario {
 	private Integer codigo;
 	private String descricao;
 	private List<Fator> fatores;
+	private List<ParametroPontuacao> parametros;
 
-	public Formulario(Integer codigo, String descricao, List<Fator> fatores) {
+	public Formulario(Integer codigo, String descricao, List<Fator> fatores, List<ParametroPontuacao> parametros) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 		this.fatores = fatores;
+		this.parametros = parametros;
 
 	}
 
@@ -40,6 +42,10 @@ public class Formulario {
 
 	public void removeFator(Fator factor) {
 		this.fatores.remove(factor);
+	}
+
+	public List<ParametroPontuacao> getParametros() {
+		return parametros;
 	}
 
 }
