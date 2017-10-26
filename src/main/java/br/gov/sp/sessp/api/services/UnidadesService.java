@@ -49,15 +49,13 @@ public class UnidadesService {
 	}
 
 	public UnidadeAdministrativa uas(Integer uo, Integer ud, Integer ua) {
-		//System.out.println("TESTE");
-		
+
 		return unidades.findUnidadeAdministrativa(uo, ud, ua);
 	}
 
 	public UnidadeDespesa ud(Integer uoCodigo, Integer udCodigo) {
-		
-		return unidades.findUnidadeDespesa(uoCodigo, udCodigo);
 
+		return unidades.findUnidadeDespesa(uoCodigo, udCodigo);
 	}
 
 }

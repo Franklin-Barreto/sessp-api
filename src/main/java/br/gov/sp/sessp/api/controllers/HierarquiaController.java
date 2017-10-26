@@ -10,23 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.sp.sessp.api.models.Menu;
-import br.gov.sp.sessp.api.services.MenuService;
-@CrossOrigin
+import br.gov.sp.sessp.api.models.Avaliador;
+import br.gov.sp.sessp.api.services.HierarquiaService;
+
 @RestController
-@RequestMapping("/menu")
-public class MenuController {
+@RequestMapping("/hierarquia")
+@CrossOrigin
+public class HierarquiaController {
 
 	@Autowired
-	private MenuService menuService;
+	private HierarquiaService hierarquia;
 
-	@PostMapping
-	public void salvar(@RequestBody Menu menu) {
-		menuService.salvar(menu);
+	@PostMapping("/avaliador")
+	public void salvarAvaliador(@RequestBody Avaliador avaliador) {
+		hierarquia.salvarAvaliador(avaliador);
 	}
 
-	@GetMapping
-	public List<Menu> obterMenu() {
-		return menuService.obterMenu();
+	@GetMapping("/avaliador")
+	public List<Avaliador> listarAvaliadores() {
+		return hierarquia.listarAvaliadores();
 	}
+
 }

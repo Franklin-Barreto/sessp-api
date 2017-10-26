@@ -16,7 +16,6 @@ public class UnidadeDespesa implements Serializable {
 	private Integer udCodigo;
 	private String udDescricao;
 	private List<UnidadeAdministrativa> unidadesAdministrativas;
-	private UnidadeAdministrativa unidadeAdministrativa;
 
 	public UnidadeDespesa(Integer udCodigo, String udDescricao, List<UnidadeAdministrativa> unidadesAdministrativas) {
 
@@ -47,13 +46,5 @@ public class UnidadeDespesa implements Serializable {
 
 	public void setUnidadesAdministrativas(List<UnidadeAdministrativa> uas) {
 		this.unidadesAdministrativas = uas;
-	}
-
-	public UnidadeAdministrativa getUnidadeAdministrativa() {
-		return unidadeAdministrativa;
-	}
-
-	public void setUnidadeAdministrativa(UnidadeAdministrativa unidadeAdministrativa) {
-		this.unidadeAdministrativa = unidadeAdministrativa;
 	}
 }

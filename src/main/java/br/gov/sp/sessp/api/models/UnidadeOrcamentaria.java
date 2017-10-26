@@ -12,7 +12,6 @@ public class UnidadeOrcamentaria {
 	private Integer codigoUo;
 	private String descricao;
 	private List<UnidadeDespesa> unidadesDespesa;
-	private UnidadeDespesa unidadeDespesa;
 
 	public UnidadeOrcamentaria(Integer codigoUo, String descricao, List<UnidadeDespesa> unidadesDespesa) {
 		this.codigoUo = codigoUo;
@@ -42,14 +41,6 @@ public class UnidadeOrcamentaria {
 
 	public void setUnidadesDespesa(List<UnidadeDespesa> uds) {
 		this.unidadesDespesa = uds;
-	}
-
-	public UnidadeDespesa getUnidadeDespesa() {
-		return unidadeDespesa;
-	}
-
-	public void setUnidadeDespesa(UnidadeDespesa unidadeDespesa) {
-		this.unidadeDespesa = unidadeDespesa;
 	}
 
 }
