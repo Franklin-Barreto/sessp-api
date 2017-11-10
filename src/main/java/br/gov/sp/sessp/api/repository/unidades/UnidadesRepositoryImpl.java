@@ -35,12 +35,12 @@ public class UnidadesRepositoryImpl implements UnidadesRepositoryCustom {
 	}
 
 	public UnidadeAdministrativa findUnidadeAdministrativa(Integer uoCodigo, Integer udCodigo, Integer uaCodigo) {
-
+		
 		Aggregation agg = newAggregation(unwind("unidadesDespesa"), unwind("unidadesDespesa.unidadesAdministrativas"),
 				match(Criteria.where("unidadesDespesa._id").is(udCodigo)
 						.and("unidadesDespesa.unidadesAdministrativas._id").is(uaCodigo)),
 				project("unidadesDespesa.unidadesAdministrativas").andExclude("_id"));
-
+		
 		DBObject db = (DBObject) mongoTemplate.aggregate(agg, UnidadeOrcamentaria.class, DBObject.class)
 				.getUniqueMappedResult().get("unidadesAdministrativas");
 		return new UnidadeAdministrativa((Integer) db.get("_id"), (String) db.get("uaDescricao"));

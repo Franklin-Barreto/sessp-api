@@ -1,22 +1,23 @@
-package br.gov.sp.sessp.api.models;
+package br.gov.sp.sessp.api.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-public class Servidor {
+import br.gov.sp.sessp.api.models.InfoServidor;
 
+public class ServidorDTO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	private Integer rsCodigo;
 	private String nome;
 	private String cpf;
-	private List<InfoServidor> infoServidor = new ArrayList<>();
-	
-	
-	
+	private InfoServidor infoServidor;
 
 	public Integer getRsCodigo() {
 		return rsCodigo;
@@ -42,16 +43,12 @@ public class Servidor {
 		this.cpf = cpf;
 	}
 
-	public List<InfoServidor> getInfoServidor() {
+	public InfoServidor getInfoServidor() {
 		return infoServidor;
 	}
-	
-	public void setInfoServidor(List<InfoServidor> infoServidor) {
-		this.infoServidor = infoServidor;
-	}
 
-	public void setInfo(InfoServidor info) {
-		this.infoServidor.add(info);
+	public void setInfoServidor(InfoServidor info) {
+		this.infoServidor = info;
 	}
 
 	@Override
@@ -60,5 +57,4 @@ public class Servidor {
 		return "rsCodigo:" + this.rsCodigo + ",nome:" + this.nome + ",cpf:" + this.cpf + ", infoServidor"
 				+ this.infoServidor;
 	}
-
 }
