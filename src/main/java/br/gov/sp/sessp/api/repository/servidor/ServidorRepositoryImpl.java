@@ -1,14 +1,22 @@
 package br.gov.sp.sessp.api.repository.servidor;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.facet;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.limit;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.skip;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.skip;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +26,14 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+
 import br.gov.sp.sessp.api.dto.ServidorDTO;
 
 public class ServidorRepositoryImpl implements ServidorRepositoryCustom {
@@ -29,6 +45,7 @@ public class ServidorRepositoryImpl implements ServidorRepositoryCustom {
 	public Page<ServidorDTO> filtrar(ServidorFilter filter, Pageable pageable) {
 
 		List<AggregationOperation> aggs = new ArrayList<>();
+
 		aggs.add(unwind("infoServidor"));
 
 		if (!StringUtils.isEmpty(filter.getNome())) {
@@ -43,17 +60,35 @@ public class ServidorRepositoryImpl implements ServidorRepositoryCustom {
 		if (!StringUtils.isEmpty(filter.getUaCodigo())) {
 			aggs.add(match(Criteria.where("infoServidor.unidade.uaCodigo").is(filter.getUaCodigo())));
 		}
-		aggs.add(skip((long) (pageable.getPageSize() *( pageable.getPageNumber()-1))));
-		aggs.add(limit(pageable.getPageSize()));
-		
-		Aggregation agg = newAggregation(aggs);
-		
-		List<ServidorDTO> servidores = mongoTemplate.aggregate(agg, "servidor", ServidorDTO.class).getMappedResults();
-System.out.println("TESTE"+pageable.getOffset());
-		Long total = (long) servidores.size();
-		System.out.println("Total de registros" + total);
 
-		return new PageImpl<ServidorDTO>(servidores, pageable, 5);
+		aggs.add(facet()
+				.and(skip((long) (pageable.getPageSize() * (pageable.getPageNumber() - 1))),
+						limit(pageable.getPageSize()))
+				.as("infoServidor").and(group().count().as("total"), project().andExclude("_id")).as("infoPage"));
+				Aggregation agg = newAggregation(aggs);
+
+		List<BasicDBObject> dbs = mongoTemplate.aggregate(agg, "servidor", BasicDBObject.class).getMappedResults();
+
+		ObjectMapper mapper = new ObjectMapper();
+		long total = 1;
+		List<ServidorDTO> servidores;
+		try {
+			servidores = mapper.readValue(dbs.get(0).get("infoServidor").toString(),
+					new TypeReference<List<ServidorDTO>>() {
+					});
+			JSONObject json = (JSONObject) new JSONArray(dbs.get(0).get("infoPage").toString()).get(0);
+			total = (long) json.get("total");
+
+		} catch (UnrecognizedPropertyException e) {
+			
+			servidores = null;
+			System.out.println(e);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			servidores = null;
+		}
+		return new PageImpl<ServidorDTO>(servidores, pageable, (long)total);
 
 	}
 

@@ -3,14 +3,15 @@ package br.gov.sp.sessp.api.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document
 public class Cargo {
 
 	@Id
+	@JsonProperty(value="_id")
 	private Integer codigo;
-	@Getter
+	
 	private String descricao;
 
 	public Cargo() {
