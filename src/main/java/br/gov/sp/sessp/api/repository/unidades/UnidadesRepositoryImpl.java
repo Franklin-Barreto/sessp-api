@@ -5,6 +5,9 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -35,16 +38,30 @@ public class UnidadesRepositoryImpl implements UnidadesRepositoryCustom {
 	}
 
 	public UnidadeAdministrativa findUnidadeAdministrativa(Integer uoCodigo, Integer udCodigo, Integer uaCodigo) {
-		
+
 		Aggregation agg = newAggregation(unwind("unidadesDespesa"), unwind("unidadesDespesa.unidadesAdministrativas"),
 				match(Criteria.where("unidadesDespesa._id").is(udCodigo)
 						.and("unidadesDespesa.unidadesAdministrativas._id").is(uaCodigo)),
 				project("unidadesDespesa.unidadesAdministrativas").andExclude("_id"));
-		
+
 		DBObject db = (DBObject) mongoTemplate.aggregate(agg, UnidadeOrcamentaria.class, DBObject.class)
 				.getUniqueMappedResult().get("unidadesAdministrativas");
 		return new UnidadeAdministrativa((Integer) db.get("_id"), (String) db.get("uaDescricao"));
 
+	}
+
+	public List<UnidadeAdministrativa> listarUas() {
+
+		Aggregation agg = newAggregation(unwind("unidadesDespesa"), unwind("unidadesDespesa.unidadesAdministrativas"),
+				project().andExclude("_id").andInclude("unidadesDespesa.unidadesAdministrativas"));
+		List<UnidadeAdministrativa> unidades = new ArrayList<>();
+		List<DBObject> dbs = mongoTemplate.aggregate(agg, UnidadeOrcamentaria.class, DBObject.class).getMappedResults();
+		for (DBObject db : dbs) {
+			DBObject ua = (DBObject) db.get("unidadesAdministrativas");
+			unidades.add(new UnidadeAdministrativa((Integer) ua.get("_id"), (String) ua.get("uaDescricao")));
+		}
+
+		return unidades;
 	}
 
 }

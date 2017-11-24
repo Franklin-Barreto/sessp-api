@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +24,12 @@ import br.gov.sp.sessp.api.services.UnidadesService;
 
 @RestController
 @RequestMapping("/unidades")
-@CrossOrigin
 public class UnidadesRestController {
 
 	@Autowired
 	private UnidadesService unidadeService;
-	@CrossOrigin
+
+	
 	@GetMapping("/uos")
 	public List<UnidadeOrcamentaria> getUos() {
 		return unidadeService.getUos();
@@ -66,8 +65,9 @@ public class UnidadesRestController {
 	}
 
 	@GetMapping("/uos/{uo}/uds/{ud}/uas/{ua}")
-	public UnidadeAdministrativa getUasByUoAndUd(@PathVariable Integer uo, @PathVariable Integer ud,@PathVariable Integer ua) {
-		return unidadeService.uas(uo, ud,ua);
+	public UnidadeAdministrativa getUasByUoAndUd(@PathVariable Integer uo, @PathVariable Integer ud,
+			@PathVariable Integer ua) {
+		return unidadeService.uas(uo, ud, ua);
 	}
 
 	@GetMapping("/uos/{uo}/ud/{ud}")
@@ -75,5 +75,9 @@ public class UnidadesRestController {
 		return unidadeService.ud(uo, ud);
 	}
 
+	@GetMapping("/uas")
+	public List<UnidadeAdministrativa> listarUas() {
+		return unidadeService.listarUas();
+	}
 
 }

@@ -2,16 +2,16 @@ package br.gov.sp.sessp.api.models;
 
 import java.io.Serializable;
 
-public class UsuarioId implements Serializable {
+public class ServidorId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer rsCodigo;
 	private int pvCodigo;
 	private int exCodigo;
-	private Integer uaCodigo;
+	private UnidadeServidor unidade;
 
-	public UsuarioId() {
+	public ServidorId() {
 	}
 
 	public Integer getRsCodigo() {
@@ -26,8 +26,8 @@ public class UsuarioId implements Serializable {
 		return exCodigo;
 	}
 
-	public Integer getUaCodigo() {
-		return uaCodigo;
+	public UnidadeServidor getUnidade() {
+		return unidade;
 	}
 
 }

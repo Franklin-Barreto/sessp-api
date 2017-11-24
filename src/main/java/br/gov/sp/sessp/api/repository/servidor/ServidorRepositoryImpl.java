@@ -44,6 +44,12 @@ public class ServidorRepositoryImpl implements ServidorRepositoryCustom {
 
 		aggs.add(unwind("infoServidor"));
 
+		if (!StringUtils.isEmpty(filter.getRsCodigo())) {
+			System.out.println("rs"+filter.getRsCodigo());
+			aggs.add(match(Criteria.where("_id").is(filter.getRsCodigo())));
+
+		}
+
 		if (!StringUtils.isEmpty(filter.getNome())) {
 			aggs.add(match(Criteria.where("nome").regex(filter.getNome())));
 
@@ -58,7 +64,7 @@ public class ServidorRepositoryImpl implements ServidorRepositoryCustom {
 		}
 
 		aggs.add(facet()
-				.and(skip((long) (pageable.getPageSize() * (pageable.getPageNumber() - 1))),
+				.and(skip((long) (pageable.getPageSize() * (pageable.getPageNumber()))),
 						limit(pageable.getPageSize()))
 				.as("infoServidor").and(group().count().as("total"), project().andExclude("_id")).as("infoPage"));
 		Aggregation agg = newAggregation(aggs);

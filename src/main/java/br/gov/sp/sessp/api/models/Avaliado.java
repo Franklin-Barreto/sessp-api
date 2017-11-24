@@ -4,10 +4,10 @@ import org.springframework.data.annotation.Id;
 
 public class Avaliado {
 
-	@Id private UsuarioId usuarioId;
+	@Id private ServidorId usuarioId;
 	private String nome;
 	
-	public UsuarioId getUsuarioId() {
+	public ServidorId getUsuarioId() {
 		return usuarioId;
 	}
 	

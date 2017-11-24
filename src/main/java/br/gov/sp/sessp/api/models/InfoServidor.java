@@ -34,19 +34,19 @@ public class InfoServidor implements Serializable {
 	public UnidadeServidor getUnidade() {
 		return unidade;
 	}
-	
+
 	public void setUnidade(UnidadeServidor unidadeOrcamentaria) {
 		this.unidade = unidadeOrcamentaria;
 	}
-	
+
 	public Cargo getCargo() {
 		return cargo;
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
-	
+
 	@Override
 	public String toString() {
 

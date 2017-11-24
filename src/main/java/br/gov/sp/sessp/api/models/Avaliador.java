@@ -9,11 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Avaliador {
 
 	@Id
-	private UsuarioId usuarioId;
+	private ServidorId usuarioId;
 	private String nome;
 	private List<Avaliado> avaliados;
 
-	public UsuarioId getUsuarioId() {
+	public ServidorId getUsuarioId() {
 		return usuarioId;
 	}
 

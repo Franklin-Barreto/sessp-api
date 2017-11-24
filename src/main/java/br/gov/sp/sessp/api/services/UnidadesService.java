@@ -9,6 +9,7 @@ import br.gov.sp.sessp.api.models.UnidadeAdministrativa;
 import br.gov.sp.sessp.api.models.UnidadeDespesa;
 import br.gov.sp.sessp.api.models.UnidadeOrcamentaria;
 import br.gov.sp.sessp.api.repository.unidades.UnidadesRepository;
+import br.gov.sp.sessp.api.repository.unidades.UnidadesRepositoryCustom;
 
 @Service
 public class UnidadesService {
@@ -56,6 +57,10 @@ public class UnidadesService {
 	public UnidadeDespesa ud(Integer uoCodigo, Integer udCodigo) {
 
 		return unidades.findUnidadeDespesa(uoCodigo, udCodigo);
+	}
+
+	public List<UnidadeAdministrativa> listarUas() {
+		return unidades.listarUas();
 	}
 
 }

@@ -2,9 +2,12 @@ package br.gov.sp.sessp.api.models;
 
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UnidadeAdministrativa {
 
 	@Id
+	@JsonProperty(value="_id")
 	private Integer uaCodigo;
 	private String uaDescricao;
 
